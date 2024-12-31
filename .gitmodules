@@ -20,7 +20,7 @@
 [submodule "rh-apicast/apicast"]
 	path = rh-apicast/apicast
 	url = https://github.com/3scale/apicast
-	branch = 3scale-2.16-stable
+	branch = feat/better_build
 
 [submodule "rh-searchd/manticore"]
 	path = rh-searchd/manticore
