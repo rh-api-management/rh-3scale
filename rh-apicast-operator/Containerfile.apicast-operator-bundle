@@ -35,6 +35,8 @@ LABEL summary="APIcast operator container image metadata" \
       io.k8s.display-name="APIcast Operator metadata" \
       io.openshift.expose-services="" \
       io.openshift.tags="3scale, apicast, api, gateway, openresty, api-gateway" \
+      com.redhat.component="3scale-apicast-operator-bundle-container" \
+      name="3scale-amp2/apicast-rhel7-operator-metadata" \
       vendor="Red Hat, Inc."
 
 # Copy files to locations specified by labels.

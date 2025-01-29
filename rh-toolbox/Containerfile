@@ -17,7 +17,10 @@ LABEL summary="The 3scale command line interface" \
       io.k8s.description="3scale toolbox is a set of tools to help you manage your 3scale product" \
       io.k8s.display-name="3scale Toolbox" \
       io.openshift.expose-services="" \
-      io.openshift.tags="3scale, cli, toolbox, openapi, rubygems, rhamp"
+      io.openshift.tags="3scale, cli, toolbox, openapi, rubygems, rhamp"\
+      com.redhat.component="3scale-toolbox-container" \
+      name="3scale-amp2/toolbox-rhel8" \
+      vendor="Red Hat, Inc."
 
 ENV TZ=:/etc/localtime \
     DISABLE_SPRING=1
