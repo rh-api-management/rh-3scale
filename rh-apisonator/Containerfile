@@ -29,7 +29,10 @@ LABEL summary="3scale API Management platform backend." \
       io.k8s.description="3scale is an API Management Platform suitable to manage both internal and external API services. This image contains the platform's backend, which takes care of applying rate limits, authorization, and reporting of HTTP(s) requests." \
       io.k8s.display-name="3scale API manager (backend)" \
       io.openshift.expose-services="3000:backend" \
-      io.openshift.tags="api, backend, 3scale, 3scale-amp"
+      io.openshift.tags="api, backend, 3scale, 3scale-amp"\
+      com.redhat.component="3scale-amp-backend-container" \
+      name="3scale-amp2/backend-rhel8" \
+      vendor="Red Hat, Inc."
 
 ARG RUBY_VERSION="3.3"
 ARG BUILD_DEPS="tar make file findutils git patch gcc automake autoconf libtool redhat-rpm-config openssl-devel ruby-devel"

@@ -16,6 +16,8 @@ LABEL summary="Zync - the sync tool" \
                    and push it somewhere else, reliably. \
                    Offers only one directional sync (from 3scale to other systems)." \
       vendor="Red Hat, Inc." \
+      com.redhat.component="3scale-amp-zync-container" \
+      name="3scale-amp2/zync-rhel9" \
       io.k8s.display-name="Zync" \
       io.k8s.description="Zync is going to take your 3scale data \
                    and push it somewhere else, reliably. \

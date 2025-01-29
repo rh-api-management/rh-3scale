@@ -101,7 +101,11 @@ LABEL summary="3scale API Management platform main system." \
                    including usage policies, access control, analytics, \
                    developer portal, and API documentation." \
       io.openshift.expose-services="3000:system,9306:system" \
-      io.openshift.tags="integration, api management, 3scale, rhamp, developer portal, api documentation, api analytics"
+      io.openshift.tags="integration, api management, 3scale, rhamp, developer portal, api documentation, api analytics"\
+      com.redhat.component="3scale-amp-system-container" \
+      name="3scale-amp2/system-rhel8" \
+      vendor="Red Hat, Inc."
+
 
 WORKDIR $HOME
 
