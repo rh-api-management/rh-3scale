@@ -32,7 +32,14 @@ spec:
     value: 5d
   - name: build-platforms
     value:
-    - linux/x86_64
+      - localhost
+      - linux/arm64
+    # - linux/ppc64le
+    # - linux/s390x
+  - name: prefetch-input
+    value: '{"type": "gomod", "path": "rh-apicast-operator/apicast-operator"}'
+  - name: hermetic
+    value: "true"
   - name: dockerfile
     value: rh-apicast-operator/Containerfile.apicast-operator
   pipelineSpec:
