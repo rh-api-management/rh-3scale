@@ -44,7 +44,7 @@ RUN set -x \
 
 # install yarn
 RUN cd /opt/system/script/yarn \
-    && npm install --global yarn@${YARN_VERSION}
+    && npm install --global /tmp/cachi2/deps/npm/yarn-${YARN_VERSION}.tgz
 
 RUN yarn --frozen-lockfile --check-files --no-progress \
     # TODO: update to SECRET_KEY_BASE_DUMMY=1 when we upgrade to Rails 7.0
