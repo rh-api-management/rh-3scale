@@ -28,3 +28,4 @@ ruamel-yaml-clib==0.1.2 \
     --hash=sha256:ef8d4522d231cb9b29f6cdd0edc8faac9d9715c60dc7becbd6eb82c915a98e5b \
     --hash=sha256:f504d45230cc9abf2810623b924ae048b224a90adb01f97db4e766cfdda8e6eb
     # via apicast-operator-bundle (pyproject.toml)
+    
