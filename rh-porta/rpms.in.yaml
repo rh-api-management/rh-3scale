@@ -3,8 +3,8 @@ contentOrigin:
     - ./ubi.repo
     - ./redhat.repo
 moduleEnable:
-  - ruby:2.7
-  - nodejs:16
+  - ruby:3.1
+  - nodejs:18
   - mysql:8.0
 arches:
 #  - aarch64 # for aarch64 support we are missing the jemalloc rpm. We seem to have everything else, but there is no `rh-ocs-4-for-rhel-8-aarch64-rpms`
