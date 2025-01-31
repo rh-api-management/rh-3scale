@@ -2,15 +2,15 @@
     "extends": [
         "github>konflux-ci/mintmaker//config/renovate/renovate.json"
     ],
-    "ignorePaths": ["drift-cache"],
+    "ignorePaths": ["drift-cache", "rh-apicast-operator/requirements-build.in", "rh-apicast-operator/requirements-build.txt", "rh-apicast-operator/requirements.txt"],
     "ignoreDeps": [
         "registry.redhat.io/openshift4/ose-operator-registry",
         "registry.redhat.io/openshift4/ose-operator-registry-rhel9"
     ],
     "dockerfile": {
       "fileMatch": [
-          "Containerfile.3scale-operator",
-          "Containerfile.3scale-operator-bundle"
+          "rh-apicast-operator/Containerfile.apicast-operator",
+          "rh-apicast-operator/Containerfile.apicast-operator-bundle"
       ]
     },
     "customManagers": [
