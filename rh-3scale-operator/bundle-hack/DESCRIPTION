@@ -1,0 +1,29 @@
+The 3scale Operator creates and maintains the Red Hat 3scale API Management on [OpenShift](https://www.openshift.com/) in various deployment configurations.
+
+[3scale API Management](https://www.redhat.com/en/technologies/jboss-middleware/3scale) makes it easy to manage your APIs.
+Share, secure, distribute, control, and monetize your APIs on an infrastructure platform built for performance, customer control, and future growth.
+
+### Supported Features
+* **Installer** A way to install a 3scale API Management solution, providing configurability options at the time of installation
+* **Upgrade** Upgrade from previously installed 3scale API Management solution
+* **Reconcilliation** Tunable CRD parameters after 3scale API Management solution is installed
+* **Capabilities** Ability to define 3scale API definitions and set them into a 3scale API Management solution
+
+### Documentation
+[3scale api management](https://access.redhat.com/documentation/en-us/red_hat_3scale_api_management)
+[Deploying 3scale using the operator](https://access.redhat.com/documentation/en-us/red_hat_3scale_api_management/2.11/html/installing_3scale/install-threescale-on-openshift-guide#deploying-threescale-using-the-operator)
+
+### Getting help
+If you encounter any issues while using 3scale operator, you can create an issue on our [Github repo](https://github.com/3scale/3scale-operator) for bugs, enhancements, or other requests.
+
+### Contributing
+You can contribute by:
+
+* Raising any issues you find using 3scale Operator
+* Fixing issues by opening [Pull Requests](https://github.com/3scale/3scale-operator/pulls)
+* Talking about 3scale Operator
+
+All bugs, tasks or enhancements are tracked as [GitHub issues](https://github.com/3scale/3scale-operator/issues).
+
+### License
+3scale Operator is licensed under the [Apache 2.0 license](https://github.com/3scale/3scale-operator/blob/master/LICENSE)
