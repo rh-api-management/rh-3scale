@@ -44,6 +44,8 @@ RUN set -x \
 
 # install yarn
 RUN cd /opt/system/script/yarn \
+    && ls -al /tmp/cachi2/deps/npm \
+    && ls -al /cachi2/deps/npm \
     && npm install --global /tmp/cachi2/deps/npm/yarn-${YARN_VERSION}.tgz
 
 RUN yarn --frozen-lockfile --check-files --no-progress \
