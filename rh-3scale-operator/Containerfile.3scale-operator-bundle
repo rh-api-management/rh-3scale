@@ -41,4 +41,4 @@ LABEL com.redhat.component="3scale-operator-bundle-container" \
 # Copy files to locations specified by labels.
 COPY --from=builder /manifests /manifests/
 COPY --from=builder /metadata /metadata/
-COPY 3scale-operator/bundle/tests/scorecard /tests/scorecard/
+COPY rh-3scale-operator/3scale-operator/bundle/tests/scorecard /tests/scorecard/

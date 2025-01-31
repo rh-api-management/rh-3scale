@@ -31,7 +31,7 @@ COPY rh-3scale-operator/3scale-operator/pkg/ pkg/
 COPY rh-3scale-operator/3scale-operator/version/ version/
 
 # Add patches to image and apply patches, in order.
-ADD patches /tmp/patches
+ADD rh-3scale-operator/patches /tmp/patches
 RUN find /tmp/patches -type f -name '*.patch' -print0 | sort --zero-terminated | xargs -t -0 -n 1 patch --force -p1
 
 

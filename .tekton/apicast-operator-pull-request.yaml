@@ -8,7 +8,8 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch == "main" &&
-      (".tekton/multi-arch-build-pipeline.yaml".pathChanged() ||
+      # re-enable when enabling multiarch
+      # (".tekton/multi-arch-build-pipeline.yaml".pathChanged() ||
       ".tekton/apicast-operator-pull-request.yaml".pathChanged() ||
       ".tekton/apicast-operator-push.yaml".pathChanged() ||
       "rh-apicast-operator/Containerfile.apicast-operator".pathChanged() ||
