@@ -43,6 +43,8 @@ spec:
       - {"type": "pip", "path": "rh-3scale-operator/"}
   - name: prefetch-dev-package-managers-enabled
     value: "true"
+  - name: build-source-image
+    value: "true"
   pipelineRef:
     name: single-arch-build-pipeline
   workspaces:

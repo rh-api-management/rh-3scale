@@ -41,12 +41,17 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=$(go env GOARCH) go build -a -ldflags "${LDF
 
 FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
-LABEL summary="3scale Operator container image" \
+LABEL name="3scale-amp2/3scale-rhel9-operator" \
+      summary="3scale Operator container image" \
       description="Operator provides a way to install a 3scale API Management and ability to define 3scale API definitions." \
-      io.k8s.display-name="3scale Operator" \
+      com.redhat.component="3scale-operator-container" \
+      version="alpha" \
+      vendor="Red Hat, Inc."
+
+LABEL io.k8s.display-name="3scale Operator" \
       io.openshift.expose-services="" \
       io.openshift.tags="3scale, 3scale-amp, api" \
-      vendor="Red Hat, Inc."
+      io.k8s.description="Operator provides a way to install a 3scale API Management and ability to define 3scale API definitions."
 
 ENV OPERATOR_BINARY_NAME="manager" \
   USER_UID=65532 \

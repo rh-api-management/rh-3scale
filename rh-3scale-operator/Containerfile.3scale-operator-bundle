@@ -26,15 +26,17 @@ LABEL operators.operatorframework.io.metrics.project_layout=go.kubebuilder.io/v3
 LABEL operators.operatorframework.io.test.mediatype.v1=scorecard+v1
 LABEL operators.operatorframework.io.test.config.v1=tests/scorecard/
 
-LABEL com.redhat.component="3scale-operator-bundle-container" \
-      name="3scale-amp2/3scale-rhel7-operator-metadata" \
+LABEL name="3scale-amp2/3scale-rhel7-operator-metadata" \
       summary="3scale operator container image prod metadata" \
       description="3scale operator container image prod metadata" \
-      io.k8s.display-name="3scale operator metadata" \
-      io.openshift.expose-services="" \
-      io.openshift.tags="3scale, api" \
+      com.redhat.component="3scale-operator-bundle-container" \
       version="alpha" \
       vendor="Red Hat, Inc."
+
+LABEL io.k8s.display-name="3scale operator metadata" \
+      io.openshift.expose-services="" \
+      io.openshift.tags="3scale, api" \
+      io.k8s.description="3scale operator container image prod metadata."
 
 USER root
 ARG USER_UID=1001

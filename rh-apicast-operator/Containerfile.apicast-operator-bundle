@@ -26,15 +26,17 @@ LABEL operators.operatorframework.io.metrics.project_layout=go.kubebuilder.io/v3
 LABEL operators.operatorframework.io.test.mediatype.v1=scorecard+v1
 LABEL operators.operatorframework.io.test.config.v1=tests/scorecard/
 
-LABEL com.redhat.component="3scale-apicast-operator-bundle-container" \
-      name="3scale-amp2/apicast-rhel7-operator-metadata" \
+LABEL name="3scale-amp2/apicast-rhel7-operator-metadata" \
       summary="APIcast operator container image metadata" \
       description="APIcast operator container image metadata" \
-      io.k8s.display-name="APIcast Operator metadata" \
-      io.openshift.expose-services="" \
-      io.openshift.tags="3scale, apicast, api, gateway, openresty, api-gateway" \
+      com.redhat.component="3scale-apicast-operator-bundle-container" \
       version="alpha" \
       vendor="Red Hat, Inc."
+
+LABEL io.k8s.display-name="APIcast Operator metadata" \
+      io.openshift.tags="3scale, apicast, api, gateway, openresty, api-gateway" \
+      io.k8s.description="APIcast operator container image metadata." \
+      io.openshift.expose-services=""
 
 USER root
 ARG USER_UID=1001

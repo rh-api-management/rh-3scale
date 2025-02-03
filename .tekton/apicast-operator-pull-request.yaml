@@ -44,6 +44,8 @@ spec:
     value: '{"type": "gomod", "path": "rh-apicast-operator/apicast-operator/"}'
   - name: hermetic
     value: "true"
+  - name: build-source-image
+    value: "true"
   pipelineRef:
     name: build-pipeline
   workspaces:
