@@ -42,13 +42,13 @@ spec:
   - name: output-image
     value: quay.io/redhat-user-workloads/3scale-prod-tenant/threescale-operator:{{revision}}
   - name: dockerfile
-    value: Containerfile.3scale-operator
+    value: rh-3scale-operator/Containerfile.3scale-operator
   - name: path-context
     value: .
   - name: build-platforms
     value:
       - localhost
-      - linux/arm64
+      - linux/amd64
       - linux/ppc64le
       - linux/s390x
   - name: prefetch-input

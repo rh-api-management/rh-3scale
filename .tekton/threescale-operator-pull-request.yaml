@@ -51,8 +51,8 @@ spec:
     value:
       - localhost
       - linux/amd64
-    # - linux/ppc64le
-    # - linux/s390x
+      - linux/ppc64le
+      - linux/s390x
   - name: prefetch-input
     value: '{"type": "gomod", "path": "rh-3scale-operator/3scale-operator/"}'
   - name: hermetic
