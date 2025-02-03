@@ -1,27 +1,23 @@
 # Based on ./gatekeeper-operator/bundle.Dockerfile
 FROM registry.access.redhat.com/ubi9/ubi-minimal:latest as builder-runner
 RUN microdnf install -y skopeo jq python3 python3-pip
-RUN pip3 install --upgrade pip && pip3 install ruamel.yaml==0.17.9
-
-# Use a new stage to enable caching of the package installations for local development
-FROM builder-runner as builder
+RUN . /cachi2/cachi2.env && pip3 install /cachi2/output/deps/pip/ruamel.yaml-0.17.9.tar.gz
 
 COPY rh-apicast-operator/bundle-hack .
 COPY rh-apicast-operator/apicast-operator/bundle/manifests /manifests/
 COPY rh-apicast-operator/apicast-operator/bundle/metadata /metadata/
+COPY rh-apicast-operator/apicast-operator/bundle/tests/scorecard /tests/scorecard/
 
+RUN chmod +x ./update_bundle.sh
 RUN ./update_bundle.sh
-
-FROM scratch
 
 # Core bundle labels.
 LABEL operators.operatorframework.io.bundle.mediatype.v1=registry+v1
 LABEL operators.operatorframework.io.bundle.manifests.v1=manifests/
 LABEL operators.operatorframework.io.bundle.metadata.v1=metadata/
 LABEL operators.operatorframework.io.bundle.package.v1=apicast-operator
-LABEL operators.operatorframework.io.bundle.channels.v1=threescale-2.16
-LABEL operators.operatorframework.io.bundle.channel.default.v1=threescale-2.16
-
+LABEL operators.operatorframework.io.bundle.channels.v1=alpha
+LABEL operators.operatorframework.io.bundle.channel.default.v1=stable
 LABEL operators.operatorframework.io.metrics.builder=operator-sdk-v1.34.1
 LABEL operators.operatorframework.io.metrics.mediatype.v1=metrics+v1
 LABEL operators.operatorframework.io.metrics.project_layout=go.kubebuilder.io/v3
@@ -30,16 +26,24 @@ LABEL operators.operatorframework.io.metrics.project_layout=go.kubebuilder.io/v3
 LABEL operators.operatorframework.io.test.mediatype.v1=scorecard+v1
 LABEL operators.operatorframework.io.test.config.v1=tests/scorecard/
 
-LABEL summary="APIcast operator container image metadata" \
+LABEL com.redhat.component="3scale-apicast-operator-bundle-container" \
+      name="3scale-amp2/apicast-rhel7-operator-metadata" \
+      summary="APIcast operator container image metadata" \
       description="APIcast operator container image metadata" \
       io.k8s.display-name="APIcast Operator metadata" \
       io.openshift.expose-services="" \
       io.openshift.tags="3scale, apicast, api, gateway, openresty, api-gateway" \
-      com.redhat.component="3scale-apicast-operator-bundle-container" \
-      name="3scale-amp2/apicast-rhel7-operator-metadata" \
+      version="alpha" \
       vendor="Red Hat, Inc."
 
-# Copy files to locations specified by labels.
-COPY --from=builder /manifests /manifests/
-COPY --from=builder /metadata /metadata/
-COPY rh-apicast-operator/apicast-operator/bundle/tests/scorecard /tests/scorecard/
+USER root
+ARG USER_UID=1001
+ENV USER_UID=${USER_UID}
+
+# Install licenses
+ENV LICENSES_DIR="/licenses/apicast-operator/"
+RUN mkdir -p ${LICENSES_DIR}
+COPY rh-apicast-operator/apicast-operator/licenses.xml ${LICENSES_DIR}
+RUN chown ${USER_UID:-1001}:0 ${LICENSES_DIR}/licenses.xml
+
+USER 1001
