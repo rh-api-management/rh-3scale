@@ -7,25 +7,11 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     build.appstudio.openshift.io/build-nudge-files: "bundle-hack/update_bundle.sh"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    # when adding filter for directory use "directory/***".pathChanged()
-    # when adding filter for git submodule use "submodule".pathChanged()
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" &&
       (".tekton/multi-arch-build-pipeline.yaml".pathChanged() ||
-      ".tekton/threescale-operator-pull-request.yaml".pathChanged() ||
       ".tekton/threescale-operator-push.yaml".pathChanged() ||
-      "Containerfile.3scale-operator".pathChanged() ||
-      "3scale-operator".pathChanged())
-#      "Dockerfile".pathChanged() ||
-#      "apis".pathChanged()) ||
-#      "cmd".pathChanged()) ||
-#      "config".pathChanged()) ||
-#      "controllers".pathChanged()) ||
-#      "docs".pathChanged()) ||
-#      "examples".pathChanged()) ||
-#      "examples".pathChanged()) ||
-#      "generators".pathChanged()) ||
-#      "pkg".pathChanged()) ||
-#      "test".pathChanged())
+      "rh-3scale-operator/Containerfile.3scale-operator".pathChanged() ||
+      "rh-3scale-operator/3scale-operator".pathChanged())
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: threescale

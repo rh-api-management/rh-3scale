@@ -9,12 +9,12 @@ metadata:
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch == "main" &&
       (".tekton/apicast-operator-bundle-pull-request.yaml".pathChanged() ||
-      ".tekton/apicast-operator-bundle-push.yaml".pathChanged() ||
+      ".tekton/single-arch-build-pipeline.yaml".pathChanged() ||
       "rh-apicast-operator/Containerfile.apicast-operator-bundle".pathChanged() ||
       "rh-apicast-operator/apicast-operator".pathChanged() ||
-      "rpms.in.yaml".pathChanged() ||
-      "rpms.lock.yaml".pathChanged() ||
-      "pyproject.toml".pathChanged() ||
+      "rh-apicast-operator/rpms.in.yaml".pathChanged() ||
+      "rh-apicast-operator/rpms.lock.yaml".pathChanged() ||
+      "rh-apicast-operator/pyproject.toml".pathChanged() ||
       "rh-apicast-operator/bundle-hack/***".pathChanged())
 
   creationTimestamp: null
