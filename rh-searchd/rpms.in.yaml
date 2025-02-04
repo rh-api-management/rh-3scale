@@ -19,7 +19,6 @@ packages:
   - libicu-devel
   - llvm-toolset
   - mysql
-  - mysql
   - openssl
   - openssl-devel
   - rpm-build
