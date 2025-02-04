@@ -9,9 +9,13 @@
     ],
     "dockerfile": {
       "fileMatch": [
-          "Containerfile.3scale-operator",
-          "Containerfile.3scale-operator-bundle"
-      ]
+          "rh-3scale-operator/Containerfile.3scale-operator",
+          "rh-3scale-operator/Containerfile.3scale-operator-bundle"
+      ],
+      "postUpgradeTasks": {
+        "commands": ["rpm-lockfile-prototype rh-3scale-operator/rpms.in.yaml"],
+        "fileFilters": ["rh-3scale-operator/rpms.lock.yaml"]
+      }
     },
     "customManagers": [
       {

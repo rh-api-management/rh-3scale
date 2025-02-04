@@ -11,7 +11,11 @@
       "fileMatch": [
           "rh-apicast-operator/Containerfile.apicast-operator",
           "rh-apicast-operator/Containerfile.apicast-operator-bundle"
-      ]
+      ],
+      "postUpgradeTasks": {
+        "commands": ["rpm-lockfile-prototype rh-apicast-operator/rpms.in.yaml"],
+        "fileFilters": ["rh-apicast-operator/rpms.lock.yaml"]
+      }
     },
     "customManagers": [
       {
