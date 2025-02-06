@@ -1,0 +1,14 @@
+{
+    "extends": [
+        "github>konflux-ci/mintmaker//config/renovate/renovate.json"
+    ],
+    "dockerfile": {
+      "fileMatch": [
+          "rh-apicast/Containerfile"
+      ],
+      "postUpgradeTasks": {
+        "commands": ["rpm-lockfile-prototype rh-apicast/rpms.in.yaml"],
+        "fileFilters": ["rh-apicast/rpms.lock.yaml"]
+      }
+    }
+}
