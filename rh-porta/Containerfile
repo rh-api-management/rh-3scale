@@ -47,6 +47,7 @@ RUN cd /opt/system/script/yarn \
     && npm install --global /cachi2/output/deps/npm/yarn-${YARN_VERSION}.tgz 
 
 RUN yarn --frozen-lockfile --check-files --no-progress \
+    && bundle config list \
     && RAILS_ENV=production SECRET_KEY_BASE=rails/32947 bundle exec rake assets:precompile tmp:clear \
     && rm -rf node_modules /usr/local/share/gems/cache /usr/local/share/gems/doc
 
