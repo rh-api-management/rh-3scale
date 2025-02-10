@@ -1,0 +1,30 @@
+contentOrigin:
+  repofiles:
+    - ./ubi.repo
+arches:
+  - aarch64
+  - x86_64
+  - ppc64le
+  - s390x
+packages:
+  - rpm-build
+  - yum-utils
+  - make
+  - cmake3
+  - gcc
+  - gcc-c++
+  - glibc-devel
+  - gcc-toolset-12-gcc
+  - gcc-toolset-12-gcc-c++
+  - gcc-toolset-12-annobin-annocheck
+  - perl
+  - systemtap-sdt-devel
+  - git
+  - perl-File-Temp
+  - dos2unix
+  - pcre-devel
+  - openssl-devel
+  - libyaml-devel
+  - unzip
+  - zip
+  - libtool
