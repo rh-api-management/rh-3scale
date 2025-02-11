@@ -16,6 +16,8 @@ USER root
 
 COPY ./rh-porta/porta /opt/system
 
+RUN cat /cachi2/cachi2.env && cp /cachi2/cachi2.env /opt/system
+
 WORKDIR /opt/system
 
 RUN cp -pR config/examples/*.yml config/ \
@@ -27,8 +29,10 @@ RUN dnf -y module enable ruby:${RUBY_VERSION} nodejs:18 mysql:8.0 \
 
 # install bundler
 RUN set -x \
-    && BUNDLER_VERSION=$(awk '/BUNDLED WITH/ { getline; print $1 }' Gemfile.lock) \
-    && gem install --no-document bundler:$BUNDLER_VERSION \
+# cachi2 doesn't currently support fetching the bundler gem. Therefore, it is not currently possible to select a custom \
+# bundler version in the product build. We'll have to go with the one being installed with the ruby module.
+#    && BUNDLER_VERSION=$(awk '/BUNDLED WITH/ { getline; print $1 }' Gemfile.lock) \
+#    && gem install --no-document bundler:$BUNDLER_VERSION \
     && bundle config build.nokogiri --use-system-libraries \
     && bundle config set --local deployment true \
     && bundle config set --local without development:test \
@@ -38,13 +42,13 @@ RUN set -x \
     && DB=oracle bundle package --no-install \
     && bundle config set --local without development:test
 
-# install yarn
+# install yarn 1.22.19
 RUN cd /opt/system/script/yarn \
-    && npm install --userconfig .npmrc --global yarn@${YARN_VERSION}
+    && npm install --global /cachi2/output/deps/npm/yarn-${YARN_VERSION}.tgz 
 
 RUN yarn --frozen-lockfile --check-files --no-progress \
-    # TODO: update to SECRET_KEY_BASE_DUMMY=1 when we upgrade to Rails 7.0
-    && SECRET_KEY_BASE=rails/32947 bundle exec rake assets:precompile tmp:clear \
+    && bundle config list \
+    && RAILS_ENV=production SECRET_KEY_BASE=rails/32947 bundle exec rake assets:precompile tmp:clear \
     && rm -rf node_modules /usr/local/share/gems/cache /usr/local/share/gems/doc
 
 # TODO: check if the SBOM provided by konflux already provides the license info
@@ -117,8 +121,7 @@ COPY --from=builder /usr/local/bin/bundle* /usr/local/bin
 # in RHEL 8 podman-catatonit pulls in too many useless deps so we don't install the RPM directly, on RHEL 9 simply use package `catatonit`
 COPY --from=builder /usr/libexec/catatonit/catatonit /usr/libexec/catatonit/catatonit
 
-RUN subscription-manager refresh \
-    && dnf -y --setopt=module_stream_switch=True module enable ruby:${RUBY_VERSION} nodejs:18 mysql:8.0 \
+RUN dnf -y --setopt=module_stream_switch=True module enable ruby:${RUBY_VERSION} nodejs:18 mysql:8.0 \
     && dnf install -y --setopt=skip_missing_names_on_install=False,tsflags=nodocs shared-mime-info postgresql rubygem-irb rubygem-rdoc ruby libpq mysql mysql-libs gd git liberation-sans-fonts file libxml2 libxslt jemalloc \
     && dnf -y clean all
 
