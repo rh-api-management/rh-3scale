@@ -2,20 +2,16 @@ apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
   annotations:
+    build.appstudio.openshift.io/build-nudge-files: bundle-hack/update_bundle.sh
     build.appstudio.openshift.io/repo: https://github.com/rh-api-management/rh-3scale?rev={{revision}}
     build.appstudio.redhat.com/commit_sha: '{{revision}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
-    build.appstudio.openshift.io/build-nudge-files: "bundle-hack/update_bundle.sh"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" &&
-      (".tekton/searchd-pull-request.yaml".pathChanged() ||
-      ".tekton/searchd-push.yaml".pathChanged() ||
-      "rh-searchd/***".pathChanged() ||
-      "drift-cache/searchd/***".pathChanged() ||
-      "rh-searchd/manticore".pathChanged() ||
-      "rh-searchd/uni-algo".pathChanged() ||
-      "rh-searchd/nlohmann-json".pathChanged() ||
-      "rh-searchd/columnar".pathChanged())
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch
+      == "main" && (".tekton/searchd-pull-request.yaml".pathChanged() || ".tekton/searchd-push.yaml".pathChanged()
+      || "rh-searchd/***".pathChanged() || "drift-cache/searchd/***".pathChanged()
+      || "rh-searchd/manticore".pathChanged() || "rh-searchd/uni-algo".pathChanged()
+      || "rh-searchd/nlohmann-json".pathChanged() || "rh-searchd/columnar".pathChanged())
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: threescale
@@ -37,8 +33,7 @@ spec:
   - name: dockerfile
     value: rh-searchd/Containerfile
   - name: prefetch-input
-    value:
-      - {"type": "rpm", "path": "rh-searchd"}
+    value: '[{"path":"rh-searchd","type":"rpm"}]'
   - name: hermetic
     value: "true"
   - name: build-source-image
@@ -199,7 +194,7 @@ spec:
       - name: dev-package-managers
         value: "true"
       - name: ACTIVATION_KEY
-        value: "activation-key"
+        value: activation-key
       runAfter:
       - clone-repository
       taskRef:
@@ -249,7 +244,7 @@ spec:
       - name: IMAGE_APPEND_PLATFORM
         value: "true"
       - name: ACTIVATION_KEY
-        value: "bogus-secret"
+        value: bogus-secret
       runAfter:
       - prefetch-dependencies
       taskRef:
@@ -500,7 +495,8 @@ spec:
       optional: true
     - name: netrc
       optional: true
-  taskRunTemplate: {}
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-searchd
   workspaces:
   - name: git-auth
     secret:
