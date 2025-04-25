@@ -7,12 +7,10 @@ metadata:
     build.appstudio.redhat.com/pull_request_number: '{{pull_request_number}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch == "main" &&
-      (".tekton/multi-arch-build-pipeline.yaml".pathChanged() ||
-      ".tekton/threescale-operator-pull-request.yaml".pathChanged() ||
-      ".tekton/threescale-operator-push.yaml".pathChanged() ||
-      "rh-3scale-operator/Containerfile.3scale-operator".pathChanged() ||
-      "rh-3scale-operator/3scale-operator".pathChanged())
+    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch
+      == "main" && (".tekton/multi-arch-build-pipeline.yaml".pathChanged() || ".tekton/threescale-operator-pull-request.yaml".pathChanged()
+      || ".tekton/threescale-operator-push.yaml".pathChanged() || "rh-3scale-operator/Containerfile.3scale-operator".pathChanged()
+      || "rh-3scale-operator/3scale-operator".pathChanged())
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: threescale
@@ -36,10 +34,10 @@ spec:
     value: .
   - name: build-platforms
     value:
-      - localhost
-      - linux/amd64
-      - linux/ppc64le
-      - linux/s390x
+    - localhost
+    - linux/amd64
+    - linux/ppc64le
+    - linux/s390x
   - name: prefetch-input
     value: '{"type": "gomod", "path": "rh-3scale-operator/3scale-operator/"}'
   - name: hermetic
@@ -48,7 +46,10 @@ spec:
     value: "true"
   pipelineRef:
     name: multi-arch-build-pipeline
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-threescale-operator
   workspaces:
   - name: git-auth
     secret:
       secretName: '{{ git_auth_secret }}'
+status: {}
