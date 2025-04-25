@@ -7,12 +7,10 @@ metadata:
     build.appstudio.redhat.com/pull_request_number: '{{pull_request_number}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch == "main" &&
-      (".tekton/apisonator-pull-request.yaml".pathChanged() ||
-      ".tekton/apisonator-push.yaml".pathChanged() ||
-      "rh-apisonator/***".pathChanged() ||
-      "drift-cache/apisonator/***".pathChanged() ||
-      "rh-apisonator/apisonator".pathChanged())
+    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch
+      == "main" && (".tekton/apisonator-pull-request.yaml".pathChanged() || ".tekton/apisonator-push.yaml".pathChanged()
+      || "rh-apisonator/***".pathChanged() || "drift-cache/apisonator/***".pathChanged()
+      || "rh-apisonator/apisonator".pathChanged())
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: threescale
@@ -36,9 +34,7 @@ spec:
   - name: dockerfile
     value: rh-apisonator/Containerfile
   - name: prefetch-input
-    value:
-      - {"type": "rpm", "path": "rh-apisonator"}
-      - {"type": "bundler", "path": "rh-apisonator/apisonator/"}
+    value: '[{"path":"rh-apisonator","type":"rpm"},{"path":"rh-apisonator/apisonator/","type":"bundler"}]'
   - name: hermetic
     value: "true"
   pipelineSpec:
@@ -244,9 +240,8 @@ spec:
         value: $(tasks.prefetch-dependencies.results.CACHI2_ARTIFACT)
       - name: IMAGE_APPEND_PLATFORM
         value: "true"
-      # prevent this build from using the activation key - otherwise buildah tries to enable the rhel8 repos, while only the ubi8 repos have been prefetched (and as this is a hermetic build - that fails)
       - name: ACTIVATION_KEY
-        value: "dont-need-no-key"
+        value: dont-need-no-key
       runAfter:
       - prefetch-dependencies
       taskRef:
@@ -497,7 +492,8 @@ spec:
       optional: true
     - name: netrc
       optional: true
-  taskRunTemplate: {}
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-apisonator
   workspaces:
   - name: git-auth
     secret:
