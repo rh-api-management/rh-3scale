@@ -2,18 +2,14 @@ apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
   annotations:
+    build.appstudio.openshift.io/build-nudge-files: bundle-hack/update_bundle.sh
     build.appstudio.openshift.io/repo: https://github.com/rh-api-management/rh-3scale?rev={{revision}}
     build.appstudio.redhat.com/commit_sha: '{{revision}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
-    build.appstudio.openshift.io/build-nudge-files: "bundle-hack/update_bundle.sh"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" &&
-      (".tekton/zync-pull-request.yaml".pathChanged() ||
-      ".tekton/zync-push.yaml".pathChanged() ||
-      "drift-cache/zync/***".pathChanged() ||
-      "rh-zync/***".pathChanged() ||
-      "rh-zync/zync".pathChanged())
-
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch
+      == "main" && (".tekton/zync-pull-request.yaml".pathChanged() || ".tekton/zync-push.yaml".pathChanged()
+      || "drift-cache/zync/***".pathChanged() || "rh-zync/***".pathChanged() || "rh-zync/zync".pathChanged())
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: threescale
@@ -35,9 +31,7 @@ spec:
   - name: dockerfile
     value: rh-zync/Containerfile
   - name: prefetch-input
-    value:
-      - {"type": "rpm", "path": "rh-zync"}
-      - {"type": "bundler", "path": "rh-zync/zync/"}
+    value: '[{"path":"rh-zync","type":"rpm"},{"path":"rh-zync/zync/","type":"bundler"}]'
   - name: hermetic
     value: "true"
   - name: build-source-image
@@ -245,9 +239,8 @@ spec:
         value: $(tasks.prefetch-dependencies.results.CACHI2_ARTIFACT)
       - name: IMAGE_APPEND_PLATFORM
         value: "true"
-      # prevent this build from using the activation key - otherwise buildah tries to enable the rhel8 repos, while only the ubi8 repos have been prefetched (and as this is a hermetic build - that fails)
       - name: ACTIVATION_KEY
-        value: "dont-need-no-key"
+        value: dont-need-no-key
       runAfter:
       - prefetch-dependencies
       taskRef:
@@ -498,7 +491,8 @@ spec:
       optional: true
     - name: netrc
       optional: true
-  taskRunTemplate: {}
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-zync
   workspaces:
   - name: git-auth
     secret:
