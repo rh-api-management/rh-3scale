@@ -7,11 +7,9 @@ metadata:
     build.appstudio.redhat.com/pull_request_number: '{{pull_request_number}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch == "main" &&
-      (".tekton/porta-pull-request.yaml".pathChanged() ||
-      ".tekton/porta-push.yaml".pathChanged() ||
-      "rh-porta/***".pathChanged() ||
-      "drift-cache/porta/***".pathChanged() ||
+    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch
+      == "main" && (".tekton/porta-pull-request.yaml".pathChanged() || ".tekton/porta-push.yaml".pathChanged()
+      || "rh-porta/***".pathChanged() || "drift-cache/porta/***".pathChanged() ||
       "rh-porta/porta".pathChanged())
   creationTimestamp: null
   labels:
@@ -486,7 +484,8 @@ spec:
       optional: true
     - name: netrc
       optional: true
-  taskRunTemplate: {}
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-porta
   workspaces:
   - name: git-auth
     secret:
